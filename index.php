@@ -3,7 +3,7 @@
 
 <head>
     <title> Página inicial | Projeto para Web com PHP</title>
-    <link rel="stylesheet" href="lib/css/bootstrap.min.css">
+    <link rel="stylesheet" href="lib/bootstrap-4.2.1-dist/css/bootstrap.min.css">
 </head>
 
 <body>
@@ -11,6 +11,7 @@
         <div class="row">
             <div class="col-md-12">
                 <?php
+                // Inclui o arquivo topo.php para exibir o topo da página.
                 include 'includes/topo.php';
                 ?>
             </div>
@@ -18,27 +19,34 @@
         <div class="row" style="min-height: 500px;">
             <div class="col-md-12">
                 <?php
+                // Inclui o arquivo menu.php para exibir o menu da página.
                 include 'includes/menu.php';
                 ?>
             </div>
-            <div class="col-md-10" style="padding-top: 50px;">
+            <div class="col-md-12" style="padding-top: 50px;">
                 <h2>Página Inicial</h2>
                 <?php
+                // Inclui o arquivo busca.php para exibir a barra de busca.
                 include 'includes/busca.php';
-                ?>
 
-                <?php
+                // Configura o fuso horário para São Paulo.
+                date_default_timezone_set('America/Sao_Paulo');
+
+                // Requer arquivos de funções e configurações.
                 require_once 'includes/funcoes.php';
                 require_once 'core/conexao_mysql.php';
                 require_once 'core/sql.php';
                 require_once 'core/mysql.php';
 
+                // Cria variáveis a partir dos dados enviados via GET.
                 foreach ($_GET as $indice => $dado) {
                     $$indice = limparDados($dado);
                 }
 
+                // Obtém a data e hora atual.
                 $data_atual = date('Y-m-d H:i:s');
 
+                // Define critérios para a busca de posts.
                 $criterio = [
                     ['data_postagem', '<=', $data_atual]
                 ];
@@ -52,6 +60,7 @@
                     ];
                 }
 
+                // Realiza a busca no banco de dados.
                 $posts = buscar(
                     'post',
                     [
@@ -70,6 +79,7 @@
                 <div>
                     <div class="list-group">
                         <?php
+                        // Loop para exibir os posts encontrados.
                         foreach ($posts as $post) :
                             $data = date_create($post['data_postagem']);
                             $data = date_format($data, 'd/m/Y H:i:s');
@@ -87,12 +97,13 @@
         <div class="row">
             <div class="col-md-12">
                 <?php
+                // Inclui o arquivo rodape.php para exibir o rodapé da página.
                 include 'includes/rodape.php';
                 ?>
             </div>
         </div>
     </div>
-    <script src="lib/js/bootstrap.min.js"></script>
+    <script src="lib/bootstrap-4.2.1-dist/js/bootstrap.min.js"></script>
 </body>
 
 </html>
